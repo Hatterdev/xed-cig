@@ -5,8 +5,11 @@ import '@uniswap/widgets/fonts.css';
 import '@fontsource/ibm-plex-mono/400.css'; // Adiciona a fonte necessária
 import axios from 'axios';
 import Link from 'next/link';
+<<<<<<< HEAD
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+=======
+>>>>>>> f557f9391ea1d33e297e2865e0d1fc3c512a94ca
 
 // Customização do tema escuro com detalhes em verde futurista
 const futuristicTheme = {
