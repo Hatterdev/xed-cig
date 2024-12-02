@@ -1,101 +1,219 @@
-import Image from "next/image";
+"use client";
+import { useState, useEffect } from 'react';
+import { SwapWidget, darkTheme } from '@uniswap/widgets';
+import '@uniswap/widgets/fonts.css';
+import '@fontsource/ibm-plex-mono/400.css'; // Adiciona a fonte necessária
+import axios from 'axios';
+import Link from 'next/link';
 
-export default function Home() {
+// Customização do tema escuro com detalhes em verde futurista
+const futuristicTheme = {
+  ...darkTheme,
+  accent: '#00FF88', // Verde Neon para elementos destacados
+  primary: '#00FF88', // Verde Neon para texto principal
+  secondary: '#A9A9A9', // Cinza para texto secundário
+  interactive: '#242424', // Fundo interativo
+  container: '#1B1B1B', // Fundo do widget
+  module: '#101010', // Fundo dos módulos internos
+  dialog: '#242424', // Fundo de diálogos (modais)
+  outline: '#00FF88', // Bordas
+};
+
+const CMC_TOKEN_LIST = 'https://api.coinmarketcap.com/data-api/v3/uniswap/all.json';
+
+export default function CryptoSwap() {
+  const [cryptoPrices, setCryptoPrices] = useState({});
+  const [error, setError] = useState(null); // Para tratar erros da API
+  const cryptos = [
+    'bitcoin',
+    'ethereum',
+    'binancecoin',
+    'cardano',
+    'solana',
+    'ripple',
+    'polkadot',
+    'dogecoin',
+    'gic-de-contrato', // Adicionando GIC DE CONTRATO
+  ];
+
+  // Função para buscar os preços das criptos
+  const fetchCryptoPrices = async () => {
+    try {
+      const response = await axios.get(
+        `https://api.coingecko.com/api/v3/simple/price?ids=${cryptos.join(',')}&vs_currencies=usd&include_24hr_change=true`
+      );
+      setCryptoPrices(response.data);
+      setError(null); // Limpar erro se a requisição for bem-sucedida
+    } catch (error) {
+      console.error('Error fetching crypto prices:', error);
+      setError('Falha ao buscar os preços. Tente novamente mais tarde.');
+    }
+  };
+
+  // UseEffect para buscar os preços assim que o componente carregar
+  useEffect(() => {
+    fetchCryptoPrices();
+    const interval = setInterval(fetchCryptoPrices, 30000); // Atualiza a cada 30 segundos
+    return () => clearInterval(interval); // Limpar o intervalo ao desmontar o componente
+  }, [fetchCryptoPrices]); // Adicionando a dependência
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.js
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'column',
+        height: '100vh',
+        backgroundColor: '#000000', // Fundo da página
+        padding: '20px',
+        color: '#ffffff',
+        fontFamily: 'Inter, sans-serif',
+      }}
+    >
+      {/* Header transparente com blur forte e fio de LED verde abaixo */}
+      <div
+        style={{
+          width: '100%',
+          height: '80px',
+          position: 'fixed',
+          top: '0',
+          left: '0',
+          background: 'rgba(0, 0, 0, 0.6)', // Fundo transparente
+          backdropFilter: 'blur(10px)', // Efeito de blur
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          padding: '0 20px',
+          boxSizing: 'border-box',
+          zIndex: '1000',
+        }}
+      >
+      <Link href="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
+  <img src="/logo.png" alt="Logo" style={{ width: '50px', height: '50px', marginRight: '10px' }} />
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+</Link>
+
+<Link href="/stake" style={{ color: '#00FF88', fontSize: '18px', fontWeight: '600', textDecoration: 'none' }}>
+  STAKE
+</Link>
+      </div>
+
+      {/* Fio de LED verde abaixo do Header */}
+      <div
+        style={{
+          width: '100%',
+          height: '2px',
+          background: 'linear-gradient(to right, #00FF88, #00FF88)',
+          marginTop: '80px', // Ajuste para ficar logo abaixo do header
+        }}
+      ></div>
+
+      {/* Uniswap Swap Widget como Hero */}
+      <div
+        style={{
+          marginTop: '100px', // Ajuste para dar espaço ao header fixo
+          marginBottom: '30px',
+          width: '100%',
+          maxWidth: '800px',
+          backgroundColor: '#1B1B1B',
+          borderRadius: '12px',
+          padding: '20px',
+          boxShadow: '0 10px 20px rgba(0, 255, 136, 0.2)',
+        }}
+      >
+        <SwapWidget tokenList={CMC_TOKEN_LIST} theme={futuristicTheme} />
+      </div>
+
+      {error && (
+        <div style={{ color: 'red', marginBottom: '20px' }}>{error}</div>
+      )}
+
+      {/* Exibindo os preços das criptos em 2 linhas de 4 cards */}
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(4, 1fr)', // 4 colunas
+          gap: '20px',
+          padding: '20px',
+          maxWidth: '1200px',
+          width: '100%',
+        }}
+      >
+        {cryptos.map((crypto) => {
+          const data = cryptoPrices[crypto];
+          if (!data) return null; // Evita erros se os dados ainda não estiverem carregados
+
+          const price = data.usd;
+          const change = data.usd_24h_change;
+          return (
+            <div
+              key={crypto}
+              style={{
+                backgroundColor: '#2d2d2d',
+                borderRadius: '12px',
+                padding: '15px',
+                transition: 'all 0.3s ease',
+                cursor: 'pointer',
+                position: 'relative',
+                overflow: 'hidden',
+                minWidth: '150px', // Card menor
+              }}
+              onMouseEnter={(e) => {
+                e.target.style.transform = 'translateY(-5px)';
+                e.target.style.boxShadow = '0 10px 20px rgba(0, 255, 136, 0.1)';
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.transform = 'translateY(0)';
+                e.target.style.boxShadow = 'none';
+              }}
+            >
+              <div
+                style={{
+                  width: '40px',
+                  height: '40px',
+                  marginBottom: '10px',
+                }}
+              >
+                <svg viewBox="0 0 24 24" width="40" height="40">
+                  <circle
+                    cx="12"
+                    cy="12"
+                    r="11"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  />
+                  <text
+                    x="50%"
+                    y="50%"
+                    textAnchor="middle"
+                    dominantBaseline="middle"
+                    fontSize="10"
+                  >
+                    {crypto === 'gic-de-contrato' ? 'GIC' : crypto.charAt(0).toUpperCase()}
+                  </text>
+                </svg>
+              </div>
+              <div style={{ fontSize: '1em', fontWeight: '600', marginBottom: '10px' }}>
+                {crypto === 'gic-de-contrato' ? 'GIC DE CONTRATO' : crypto.charAt(0).toUpperCase() + crypto.slice(1)}
+              </div>
+              <div style={{ fontSize: '1.2em', color: '#00FF88', fontWeight: '700' }}>
+                ${price.toLocaleString()}
+              </div>
+              <div
+                style={{
+                  fontSize: '0.9em',
+                  marginTop: '5px',
+                  color: change >= 0 ? '#00FF88' : '#FF4444',
+                }}
+              >
+                {change >= 0 ? '↑' : '↓'} {Math.abs(change).toFixed(2)}%
+              </div>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }
