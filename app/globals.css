@@ -3,19 +3,83 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #171717; /* Cor escura para o fundo */
+  --foreground: #ededed; /* Cor clara para o texto */
+  --accent-color: #00ff00; /* Verde fluorescente */
+  --highlight-color: #33ff33; /* Tom de verde mais suave para destaque */
+  --link-color: #00ff7f; /* Cor para links */
+  --border-color: #00ff00; /* Cor para bordas */
+  --button-bg: #00ff00; /* Cor de fundo dos botões */
+  --button-text: #171717; /* Cor do texto nos botões */
+  --input-bg: #333333; /* Fundo dos inputs */
+  --input-text: #ededed; /* Cor do texto nos inputs */
+  --shadow-color: rgba(0, 255, 0, 0.2); /* Cor de sombra verde */
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Declaração da fonte customizada */
+@font-face {
+  font-family: 'Robot Crush';
+  src: url('/fonts/Robot Crush.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Roboto Crush', Arial, Helvetica, sans-serif;
+}
+
+a {
+  color: var(--link-color);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: var(--highlight-color);
+}
+
+button {
+  background-color: var(--button-bg);
+  color: var(--button-text);
+  border: 2px solid var(--border-color);
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+  background-color: var(--highlight-color);
+  transform: scale(1.05);
+}
+
+button:active {
+  transform: scale(0.95);
+}
+
+input {
+  background-color: var(--input-bg);
+  color: var(--input-text);
+  border: 1px solid var(--border-color);
+  padding: 10px;
+  border-radius: 5px;
+  width: 100%;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+input:focus {
+  border-color: var(--accent-color);
+  background-color: var(--input-bg);
+  outline: none;
+}
+
+.shadow {
+  box-shadow: 0 4px 6px var(--shadow-color);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--accent-color);
 }
