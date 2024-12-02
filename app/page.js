@@ -7,8 +7,6 @@ import axios from 'axios';
 import Link from 'next/link';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-
-
 // Customização do tema escuro com detalhes em verde futurista
 const futuristicTheme = {
   ...darkTheme,
