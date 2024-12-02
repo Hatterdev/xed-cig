@@ -5,11 +5,9 @@ import '@uniswap/widgets/fonts.css';
 import '@fontsource/ibm-plex-mono/400.css'; // Adiciona a fonte necessária
 import axios from 'axios';
 import Link from 'next/link';
-<<<<<<< HEAD
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-=======
->>>>>>> f557f9391ea1d33e297e2865e0d1fc3c512a94ca
+
 
 // Customização do tema escuro com detalhes em verde futurista
 const futuristicTheme = {
@@ -95,7 +93,7 @@ export default function CryptoSwap() {
         }}
       >
       <Link href="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
-  <img src="/logo.png" alt="Logo" style={{ width: '50px', height: '50px', marginRight: '10px' }} />
+  <img src="/logo.png" alt="Logo" style={{ width: '150px', height: '150px', marginRight: '10px' }} />
 
 </Link>
 
@@ -110,7 +108,7 @@ export default function CryptoSwap() {
           width: '100%',
           height: '2px',
           background: 'linear-gradient(to right, #00FF88, #00FF88)',
-          marginTop: '80px', // Ajuste para ficar logo abaixo do header
+          marginTop: '50px', // Ajuste para ficar logo abaixo do header
         }}
       ></div>
 
@@ -120,7 +118,7 @@ export default function CryptoSwap() {
           marginTop: '100px', // Ajuste para dar espaço ao header fixo
           marginBottom: '30px',
           width: '100%',
-          maxWidth: '800px',
+          maxWidth: '1200px',
           backgroundColor: '#1B1B1B',
           borderRadius: '12px',
           padding: '20px',
